@@ -37,7 +37,7 @@
             {% if isSuperAdmin %}
                 <td>{{ entity.customer.name }}</td>
             {% endif %}
-            <td>{{ entity.lastLogin.format('d/m/Y') }}</td>
+            <td>{{ entity.lastLogin.format('d/m/Y')|default('00/00/0000') }}</td>
             <td><a href="{{ path('sam_user_edit', { 'user': entity.id }) }}">{{ entity.username }}</a></td>
             <td>{{ entity.lastname }} {{ entity.firstname }}</td>
             <td><a href="mailto:{{ entity.email }}">{{ entity.email }}</a></td>
@@ -118,37 +118,7 @@
                     cssGoto: '.gotoPage',
                     size: 50
                 };
-                var shortDateToTimestamp = function(_date,_format,_delimiter) {
-                    var formatLowerCase=_format.toLowerCase();
-                    var formatItems=formatLowerCase.split(_delimiter);
-                    var dateItems=_date.split(_delimiter);
-                    var monthIndex=formatItems.indexOf("mm");
-                    var dayIndex=formatItems.indexOf("dd");
-                    var yearIndex=formatItems.indexOf("yyyy");
-                    var month=parseInt(dateItems[monthIndex]);
-                    month-=1;
-                    var formatedDate = new Date(dateItems[yearIndex],month,dateItems[dayIndex]);
-                    return formatedDate.getTime();
-                };
-                $.tablesorter.addParser({
-                    // set a unique id
-                    id: 'shortDateWithEmptyValue',
-                    is: function (s) {
-                        // return false so this parser is not auto detected
-                        return false;
-                    },
-                    format: function (s) {
-                        // format your data for normalization
-                        s = '' + s;
-                        if (s != '')
-                            return shortDateToTimestamp(s, 'dd/mm/yyyy', '/');
-                        else
-                            return 0;
-                    },
-                    // set type, either numeric or text
-                    type: 'numeric'
-                });
-                $("#table").tablesorter({dateFormat: 'ddmmyyyy', headers: {1: {sorter: "shortDateWithEmptyValue"}}}).tablesorterPager(pagerOptions);
+                $("#table").tablesorter({dateFormat: 'ddmmyyyy'}).tablesorterPager(pagerOptions);
             });
         });
     </script>
