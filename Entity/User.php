@@ -148,6 +148,16 @@ class User extends AbstractUser
     }
 
     /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
      * Set firstName
      *
      * @param  string $firstName
