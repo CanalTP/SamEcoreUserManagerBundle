@@ -4,7 +4,7 @@
     "description": "Symfony SamEcoreUserManagerBundle",
     "keywords": ["Sam User"],
     "homepage": "https://github.com/CanalTP/SamEcoreUserManagerBundle",
-    "license": "AGPLv3",
+    "license": "AGPL-3.0-only",
     "authors": [
         {
             "name": "Rémy Abi-Khalil",
