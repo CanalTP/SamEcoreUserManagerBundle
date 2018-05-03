@@ -138,6 +138,13 @@ class User extends AbstractUser
     protected $customer;
 
     /**
+     * User creation date
+     *
+     * @var \DateTime
+     */
+    protected $createdAt;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -298,6 +305,16 @@ class User extends AbstractUser
     }
 
     /**
+     * Remove userRole
+     *
+     * @param \CanalTP\SamCoreBundle\Entity\Role $userRole
+     */
+    public function removeUserRole(\CanalTP\SamCoreBundle\Entity\Role $userRole)
+    {
+        $this->userRoles->removeElement($userRole);
+    }
+
+    /**
      * Add roleGroupByApplication
      *
      * @param Role $roleParent
@@ -370,6 +387,16 @@ class User extends AbstractUser
         return (in_array($role, $this->getRoles()));
     }
 
+    /**
+     * Get expiresAt
+     *
+     * @return \DateTime
+     */
+    public function getExpiresAt()
+    {
+        return $this->expiresAt;
+    }
+
     public function getStatusKey()
     {
         if ($this->isEnabled()) {
@@ -401,4 +428,87 @@ class User extends AbstractUser
         return $this->timezone;
     }
 
+    /**
+     * Get enabled
+     *
+     * @return boolean
+     */
+    public function getEnabled()
+    {
+        return $this->enabled;
+    }
+
+    /**
+     * Get locked
+     *
+     * @return boolean
+     */
+    public function getLocked()
+    {
+        return $this->locked;
+    }
+
+    /**
+     * Get expired
+     *
+     * @return boolean
+     */
+    public function getExpired()
+    {
+        return $this->expired;
+    }
+
+    /**
+     * Get credentialsExpired
+     *
+     * @return boolean
+     */
+    public function getCredentialsExpired()
+    {
+        return $this->credentialsExpired;
+    }
+
+    /**
+     * Get credentialsExpireAt
+     *
+     * @return \DateTime
+     */
+    public function getCredentialsExpireAt()
+    {
+        return $this->credentialsExpireAt;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return User
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Sets created at attribute at now
+     */
+    public function setCretedNow()
+    {
+        $this->setCreatedAt(new \DateTime('now'));
+
+        return $this;
+    }
 }
