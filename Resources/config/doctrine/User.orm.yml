@@ -79,6 +79,14 @@ CanalTP\SamEcoreUserManagerBundle\Entity\User:
             column: usr_credentials_expire_at
             type: datetime
             nullable: true
+        createdAt:
+            column: usr_created_at
+            type: datetime
+            nullable: true
+            options:
+              default: null
+    lifecycleCallbacks:
+        prePersist: [setCretedNow]
     uniqueConstraints:
         username_idx:
             columns: [ usr_username, usr_username_canonical ]
