@@ -2,17 +2,28 @@
 
 namespace CanalTP\SamEcoreUserManagerBundle\Controller;
 
-use Symfony\Component\Form\Form;
+use CanalTP\SamCoreBundle\Event\SamCoreEvents;
+use FOS\UserBundle\Model\UserInterface;
 use Symfony\Component\HttpFoundation\Request;
 use CanalTP\SamCoreBundle\Controller\AbstractController;
-use CanalTP\SamEcoreApplicationManagerBundle\Exception\OutOfBoundsException;
 use CanalTP\SamEcoreUserManagerBundle\Form\Type\ProfilFormType;
 use CanalTP\SamEcoreUserManagerBundle\Entity\User;
-use CanalTP\SamEcoreUserManagerBundle\Form\Flow\RegistrationFlow;
+use CanalTP\SamCoreBundle\Exception\UserEventException;
+use CanalTP\SamEcoreUserManagerBundle\Event\UserEvent;
 
 class UserController extends AbstractController
 {
-    private $userManager = null;
+    private function dispatchEvent(UserInterface $user, $type)
+    {
+        $event = new UserEvent($user);
+        try {
+            $this->get('event_dispatcher')->dispatch($type, $event);
+        } catch (UserEventException $e) {
+            $this->addFlashMessage('danger', $e->getMessage());
+            return (false);
+        }
+        return (true);
+    }
 
     /**
      * Lists all User entities.
@@ -88,6 +99,14 @@ class UserController extends AbstractController
         ));
     }
 
+    private function isCurrentUser($id)
+    {
+        if ($this->getUser()->getId() == $id) {
+            throw new \Symfony\Component\Security\Core\Exception\AccessDeniedException('Seriously, you shouldn\'t delete your account.');
+        }
+        return true;
+    }
+
     /**
      * Deletes a User entity.
      */
@@ -115,12 +134,7 @@ class UserController extends AbstractController
         } else {
             $form->bind($request);
 
-            if ($form->isValid()) {
-                if ($this->getUser()->getId() == $id) {
-                    throw new \Symfony\Component\Security\Core\Exception\AccessDeniedException('Seriously, you shouldn\'t delete your account.');
-                }
-
-                //Use sam user manager ;)
+            if ($form->isValid() && $this->isCurrentUser($id)) {
                 $userManager = $this->container->get('sam.user_manager');
                 $entity = $userManager->findUserBy(array('id' => $id));
 
@@ -128,6 +142,7 @@ class UserController extends AbstractController
                     throw $this->createNotFoundException('Unable to find User entity.');
                 }
 
+                $this->dispatchEvent($entity, SamCoreEvents::DELETE_USER);
                 $userManager->deleteUser($entity);
             }
 
