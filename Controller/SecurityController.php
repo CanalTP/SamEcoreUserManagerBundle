@@ -46,7 +46,7 @@ class SecurityController extends AbstractController
         // last username entered by the user
         $lastUsername = (null === $session) ? '' : $session->get(SecurityContext::LAST_USERNAME);
 
-        $csrfToken = $this->container->get('form.csrf_provider')->generateCsrfToken('authenticate');
+        $csrfToken = $this->container->get('security.csrf.token_manager')->refreshToken('authenticate');
 
         if (true === $this->container->get('security.context')->isGranted('ROLE_USER')) {
             $handler = $this->container->get('sam.component.authentication.handler.login_success_handler');
