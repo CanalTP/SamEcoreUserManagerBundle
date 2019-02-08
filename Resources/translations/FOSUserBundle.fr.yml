@@ -20,6 +20,10 @@ security:
         password: "Mot de passe :"
         remember_me: Se souvenir de moi
         submit: Connexion
+        locked: Compte utilisateur vérouillé.
+        disabled: Compte utilisateur désactivé.
+        accountExpired: Compte utilisateur expiré.
+        credentialExpired: Les informations d'identification de l'utilisateur ont expiré.
 
 # Profile
 profile:
