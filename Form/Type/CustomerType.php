@@ -33,6 +33,7 @@ class CustomerType extends AbstractType
             'query_builder' => function(\Doctrine\ORM\EntityRepository $er) use ($isSuperAdmin, $user) {
                 if ($isSuperAdmin) {
                     return $er->createQueryBuilder('c')
+                        ->where('c.locked = False')
                         ->orderBy('c.name', 'ASC');
                 } else {
                     return $er->createQueryBuilder('c')
