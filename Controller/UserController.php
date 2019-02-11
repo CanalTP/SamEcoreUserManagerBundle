@@ -36,9 +36,9 @@ class UserController extends AbstractController
         $user = $this->get('security.context')->getToken()->getUser();
         $isSuperAdmin = $user->hasRole('ROLE_SUPER_ADMIN');
         if ($isSuperAdmin) {
-            $entities = $this->container->get('sam.user_manager')->findUsers();
+            $entities = $this->container->get('sam.user_manager')->findUsersBy(array('locked' => false));
         } else {
-            $entities = $userManager->findUsersBy(array('customer' => $user->getCustomer()));
+            $entities = $userManager->findUsersBy(array('customer' => $user->getCustomer(), 'locked' => false));
         }
 
         $deleteFormViews = array();

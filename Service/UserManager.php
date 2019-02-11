@@ -29,7 +29,6 @@ class UserManager extends BaseUserManager
     public function findUsers()
     {
         $query = $this->repository->createQueryBuilder('u')
-            ->where('u.locked = False')
             ->orderBy('u.lastLogin', 'DESC')
             ->getQuery();
 
@@ -44,7 +43,6 @@ class UserManager extends BaseUserManager
             ->leftJoin('u.userRoles', 'r')
             ->leftJoin('r.application', 'a')
             ->where('u.id = :id')
-            ->where('u.locked = False')
             ->setParameter('id', $id)
             ->getQuery();
 
