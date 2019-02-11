@@ -20,6 +20,10 @@ security:
         password: "Mot de passe :"
         remember_me: Se souvenir de moi
         submit: Connexion
+        locked: Votre compte client est désactivé.
+        disabled: Votre compte client est désactivé.
+        accountExpired: Votre compte client est expiré.
+        credentialExpired: Les informations d'identification de votre compte ont expiré.
 
 # Profile
 profile:
