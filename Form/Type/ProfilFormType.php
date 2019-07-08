@@ -5,6 +5,8 @@ namespace CanalTP\SamEcoreUserManagerBundle\Form\Type;
 use FOS\UserBundle\Form\Type\RegistrationFormType as BaseRegistrationFormType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use CanalTP\NmmPortalBundle\Entity\Language;
 
 class ProfilFormType extends BaseRegistrationFormType
 {
@@ -51,6 +53,22 @@ class ProfilFormType extends BaseRegistrationFormType
               'label' => 'form.timezone',
               'preferred_choices' => array('Europe/Paris'),
               'translation_domain' => 'FOSUserBundle'
+            ]
+        );
+
+        $defaultLanguage = null;
+        if (isset($options['attr']['default_language'])) {
+            $defaultLanguage = $options['attr']['default_language'];
+        }
+
+        $builder->add(
+            'language',
+            EntityType::class,
+            [
+                'class' => Language::class,
+                'choice_label' => 'label',
+                'label' => 'customer.language',
+                'data' => $defaultLanguage
             ]
         );
     }

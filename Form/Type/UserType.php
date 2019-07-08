@@ -8,8 +8,6 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Email;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use CanalTP\NmmPortalBundle\Entity\Language;
 
 class UserType extends AbstractType
 {
@@ -82,16 +80,6 @@ class UserType extends AbstractType
               'label' => 'form.timezone',
               'preferred_choices' => array('Europe/Paris'),
               'translation_domain' => 'FOSUserBundle'
-            ]
-        );
-
-        $builder->add(
-            'language',
-            EntityType::class,
-            [
-                'class' => Language::class,
-                'choice_label' => 'label',
-                'label' => 'customer.language'
             ]
         );
     }

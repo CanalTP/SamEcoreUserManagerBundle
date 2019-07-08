@@ -61,7 +61,6 @@ class UserController extends AbstractController
     public function editAction(Request $request, User $user = null)
     {
         $this->isGranted('BUSINESS_MANAGE_USER');
-
         $isNew = ($user == null);
         $flow = $this->get('sam.registration.form.flow');
         $flow->bind(($isNew ? new User() : $user));
@@ -182,9 +181,12 @@ class UserController extends AbstractController
         $id = $this->get('security.context')->getToken()->getUser()->getId();
         $userManager = $this->container->get('fos_user.user_manager');
         $user = $userManager->findUserBy(array('id' => $id));
+        $defaultLanguage = $user->getCustomer()->getLanguage();
+        $options['attr']['default_language'] = $defaultLanguage;
         $form = $this->createForm(
             new ProfilFormType(),
-            $user
+            $user,
+            $options
         );
 
         $form->handleRequest($this->getRequest());
