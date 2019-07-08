@@ -112,3 +112,10 @@ CanalTP\SamEcoreUserManagerBundle\Entity\User:
                 inverseJoinColumns:
                     rol_id:
                         referencedColumnName: rol_id
+    manyToOne:
+        language:
+            targetEntity:  CanalTP\NmmPortalBundle\Entity\Language
+            cascade: [persist]
+            joinColumn:
+                name: usr_lang
+                referencedColumnName: lang_code
