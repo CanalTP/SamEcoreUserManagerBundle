@@ -525,4 +525,17 @@ class User extends AbstractUser
     {
         return $this->language;
     }
+
+    public function getLocale()
+    {
+        $locale = null;
+        if ($this->customer) {
+            $locale = $this->customer->getLanguage()->getCode();
+        }
+        if ($this->language) {
+            $locale = $this->language->getCode();
+        }
+
+        return $locale;
+    }
 }
