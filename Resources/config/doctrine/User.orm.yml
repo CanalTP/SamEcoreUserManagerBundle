@@ -85,6 +85,12 @@ CanalTP\SamEcoreUserManagerBundle\Entity\User:
             nullable: true
             options:
               default: null
+        language:
+            column: usr_lang
+            type: string
+            nullable: true
+            options:
+              default: null
     lifecycleCallbacks:
         prePersist: [setCretedNow]
     uniqueConstraints:

@@ -144,7 +144,7 @@ class User extends AbstractUser
      */
     protected $createdAt;
 
-    private $language;
+    protected $language;
 
     /**
      * Constructor
