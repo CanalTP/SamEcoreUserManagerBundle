@@ -525,4 +525,9 @@ class User extends AbstractUser
     {
         return $this->language;
     }
+
+    public function getLocale()
+    {
+        return $this->language ? $this->language : $this->customer->getLanguage();
+    }
 }

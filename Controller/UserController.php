@@ -181,8 +181,7 @@ class UserController extends AbstractController
         $id = $this->get('security.context')->getToken()->getUser()->getId();
         $userManager = $this->container->get('fos_user.user_manager');
         $user = $userManager->findUserBy(array('id' => $id));
-        $defaultLanguage = $user->getCustomer()->getLanguage();
-        $options['attr']['default_language'] = $defaultLanguage;
+        $options['attr']['selected_language'] = $user->getLocale();
         $form = $this->createForm(
             new ProfilFormType(),
             $user,
@@ -192,6 +191,7 @@ class UserController extends AbstractController
         $form->handleRequest($this->getRequest());
         if ($form->isValid()) {
             $this->editProfilProcessForm($user);
+            $this->get('session')->set('_locale', $user->getLocale()->getCode());
         }
         return $this->render(
             'CanalTPSamEcoreUserManagerBundle:User:profil.html.twig',
