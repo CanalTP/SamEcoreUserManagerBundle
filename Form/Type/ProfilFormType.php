@@ -56,11 +56,6 @@ class ProfilFormType extends BaseRegistrationFormType
             ]
         );
 
-        $defaultLanguage = null;
-        if (isset($options['attr']['default_language'])) {
-            $defaultLanguage = $options['attr']['default_language'];
-        }
-
         $builder->add(
             'language',
             EntityType::class,
@@ -68,7 +63,7 @@ class ProfilFormType extends BaseRegistrationFormType
                 'class' => Language::class,
                 'choice_label' => 'label',
                 'label' => 'customer.language',
-                'data' => $defaultLanguage
+                'data' => $options['attr']['selected_language']
             ]
         );
     }
