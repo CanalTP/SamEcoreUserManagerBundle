@@ -85,12 +85,6 @@ CanalTP\SamEcoreUserManagerBundle\Entity\User:
             nullable: true
             options:
               default: null
-        language:
-            column: usr_lang
-            type: string
-            nullable: true
-            options:
-              default: null
     lifecycleCallbacks:
         prePersist: [setCretedNow]
     uniqueConstraints:
@@ -106,6 +100,13 @@ CanalTP\SamEcoreUserManagerBundle\Entity\User:
             joinColumn:
                 name: cus_id
                 referencedColumnName: cus_id
+        language:
+            targetEntity:  CanalTP\NmmPortalBundle\Entity\Language
+            cascade: [persist]
+            nullable: true
+            joinColumn:
+                name: usr_lang
+                referencedColumnName: lang_code
     manyToMany:
         userRoles:
             targetEntity: CanalTP\SamCoreBundle\Entity\Role
@@ -118,10 +119,3 @@ CanalTP\SamEcoreUserManagerBundle\Entity\User:
                 inverseJoinColumns:
                     rol_id:
                         referencedColumnName: rol_id
-    manyToOne:
-        language:
-            targetEntity:  CanalTP\NmmPortalBundle\Entity\Language
-            cascade: [persist]
-            joinColumn:
-                name: usr_lang
-                referencedColumnName: lang_code
