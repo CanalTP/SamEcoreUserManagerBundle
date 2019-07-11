@@ -177,6 +177,13 @@ class UserController extends AbstractController
      */
     public function editProfilAction()
     {
+        //to translate the flashbag to chosen language
+        $request = $this->getRequest();
+        $postData = $request->request->get('edit_user_profil');
+        if ($postData && $request->getLocale() !== $postData['language']) {
+            $request->setLocale($postData['language']);
+            $this->editProfilAction();
+        }
         $app = $this->get('canal_tp_sam.application.finder')->getCurrentApp();
         $id = $this->get('security.context')->getToken()->getUser()->getId();
         $userManager = $this->container->get('fos_user.user_manager');
@@ -187,8 +194,7 @@ class UserController extends AbstractController
             $user,
             $options
         );
-
-        $form->handleRequest($this->getRequest());
+        $form->handleRequest($request);
         if ($form->isValid()) {
             $this->editProfilProcessForm($user);
             $this->get('session')->set('_locale', $user->getLocale()->getCode());
