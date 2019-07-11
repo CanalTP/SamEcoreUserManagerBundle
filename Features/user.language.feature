@@ -9,7 +9,7 @@ Feature: User language edit
         And I press "Connexion"
         And I am on "/admin/user/profil"
         Then I should see "français" in the "#edit_user_profil_language" element
-        When I fill in "Langue" with "english"
+        When I fill in "Langue" with "en"
         And I press "Sauvegarder"
         And I should see "Your information has been saved" in the ".alert-success" element
         And I should see "english" in the "#edit_user_profil_language" element
