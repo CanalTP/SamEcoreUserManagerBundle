@@ -1,0 +1,114 @@
+# Group
+group:
+    edit:
+        submit: Update the sim
+    show:
+        name: Name of sim
+    new:
+        submit: Create the sim
+    flash:
+        updated: The sim has been updated
+        created: The sim has been created
+        deleted: The sim has been deleted
+
+# Security
+"Bad credentials": Username or password incorrect
+
+security:
+    login:
+        username: "Username :"
+        password: "Password :"
+        remember_me: Remember me
+        submit: Log in
+        locked: Your account is locked.
+        disabled: Your account is disabled.
+        accountExpired: Your account has expired.
+        credentialExpired: The credentials of your account have expired.
+
+# Profile
+profile:
+    show:
+        username: Username
+        email: email
+    edit:
+        submit: Update
+    flash:
+        updated: The profile has been updated
+
+# Password change
+change_password:
+    submit: Change the password
+    flash:
+        success: The password has been changed
+confirm_password:
+    validation_rules: |
+        The password must respect the following rules:
+        - between 10 to 128 characters
+        - at least one lowercase character
+        - at least one uppercase character
+        - at least one number
+        - at least one special character
+    error_message: This password does not match the security rules.
+
+# Registration
+registration:
+    check_email: An email has been sent to %email%. It contains an activation link that you will need to click to activate your account.
+    confirmed: Congratulations %username%, your account is now activated.
+    back: Back to the original page.
+    submit: Save
+    flash:
+        user_created: The user was successfully created
+    email:
+        subject: Welcome %username% !
+        message: |
+            Hello %username% !
+
+            To validate your user account, please go to %confirmationUrl%
+
+            Regards,
+            The team.
+
+# Password resetting
+resetting:
+    password_already_requested: A new password has already been requested for this user in the last 24 hours.
+    check_email: An email has been sent to %email%. It contains a link that you will need to click to reset your password.
+    request:
+        invalid_username: The user name or email address "%username%" does not exist.
+        invalid_email: The email address "%username%" does not exist.
+        username: "Username or email address :"
+        email: "Email address :"
+        submit: Reset password
+    reset:
+        submit: Change the password
+    flash:
+        success: The password has been reset successfully
+    email:
+        subject: Resetting your password
+        message: |
+            Hello %username% !
+
+            To reset your password, please go to %confirmationUrl%
+
+            Regards,
+            The team.
+
+# Global strings
+layout:
+    logout: Sign Out
+    login: Login in
+    register: Inscription
+    logged_in_as: Connected as %username%
+
+# Form field labels
+form:
+    group_name: "Name of sim :"
+    username: "Username :"
+    firstname: "First name"
+    lastname: "Last name"
+    email: "Email address :"
+    timezone: "Time zone :"
+    current_password: "Current password :"
+    password: "password :"
+    password_confirmation: "Verification :"
+    new_password: "New Password :"
+    new_password_confirmation: "Verification :"
