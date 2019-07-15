@@ -163,13 +163,12 @@ class UserController extends AbstractController
             ->getForm();
     }
 
-    public function editProfilProcessForm($user)
+    public function editProfilProcessForm(Request $request, $user)
     {
         $this->get('sam.user_manager')->updateUser($user);
-        $this->get('session')->getFlashBag()->add(
-            'success',
-            $this->get('translator')->trans('ctp_user.profil.edit.validate')
-        );
+        $request->setLocale($user->getLocale()->getCode());
+        $this->get('translator')->setlocale($user->getLocale()->getCode());
+        $this->get('session')->set('_locale', $user->getLocale()->getCode());
     }
 
     /**
@@ -187,10 +186,11 @@ class UserController extends AbstractController
         );
         $form->handleRequest($request);
         if ($form->isValid()) {
-            $request->setLocale($form->getData()->getLanguage()->getCode());
-            $this->get('translator')->setlocale($form->getData()->getLanguage()->getCode());
-            $this->editProfilProcessForm($user);
-            $this->get('session')->set('_locale', $user->getLocale()->getCode());
+            $this->editProfilProcessForm($request, $user);
+            $this->get('session')->getFlashBag()->add(
+                'success',
+                $this->get('translator')->trans('ctp_user.profil.edit.validate')
+            );
         }
         return $this->render(
             'CanalTPSamEcoreUserManagerBundle:User:profil.html.twig',
