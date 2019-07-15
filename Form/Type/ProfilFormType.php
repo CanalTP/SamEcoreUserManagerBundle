@@ -62,8 +62,7 @@ class ProfilFormType extends BaseRegistrationFormType
             [
                 'class' => Language::class,
                 'choice_label' => 'label',
-                'label' => 'customer.language',
-                'data' => $options['attr']['selected_language']
+                'label' => 'customer.language'
             ]
         );
     }
