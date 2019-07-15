@@ -175,7 +175,7 @@ class UserController extends AbstractController
     /**
      * Displays a form to edit profil of current user.
      */
-    public function editProfilAction()
+    public function editProfilAction(Request $request)
     {
         //to translate the flashbag to chosen language
         $request = $this->getRequest();
