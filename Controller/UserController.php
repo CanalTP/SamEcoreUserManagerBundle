@@ -181,7 +181,7 @@ class UserController extends AbstractController
         $postData = $request->request->get('edit_user_profil');
         if ($postData && $request->getLocale() !== $postData['language']) {
             $request->setLocale($postData['language']);
-            $this->editProfilAction();
+            $this->editProfilAction($request);
         }
         $app = $this->get('canal_tp_sam.application.finder')->getCurrentApp();
         $id = $this->get('security.context')->getToken()->getUser()->getId();
