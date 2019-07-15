@@ -1,0 +1,118 @@
+# Form field labels
+form:
+    group_name: "Name of Sim :"
+    group_url: "Url :"
+    username: "Username :"
+    email: "Email address :"
+    current_password: "Current password :"
+    password: "Password :"
+    password_confirmation: "Verification :"
+    new_password: "New password :"
+    new_password_confirmation: "Verification :"
+    user:
+        step_1:
+            title: Information
+        step_2:
+            title: Customer's choice
+        step_3:
+            title: Association of roles with application
+ctp_core:
+    _breadcrumb: Home
+    toggle_nav: Show navigation
+    toggle_menu: Show menu
+
+ctp_user:
+    user:
+        _menu: Users
+        _breadcrumb: Users
+        status:
+            step_1: Creating
+            step_2: Creating
+            step_3: Creating
+            step_4: Waiting
+            active: Active
+        roles:
+            super_admin: Super Admin
+            admin: Admin
+            user: User
+        actions:
+            edit:
+                short: Edit
+            add:
+                short: Add
+                full: Add one user
+            download:
+                csv: Download the list
+            delete:
+                short: Delete
+            reset_password:
+                short: Reset password
+                full: Request a password renewal
+                not_exist: The user can not be found
+                already_sent: The password reset request has already been sent
+                sent: The password reset request has been sent
+            cancel:
+                short: Cancel
+            back:
+                list: Return to the list
+        list:
+            _breadcrumb: List
+            _title: Users list
+            profil: Role
+            customer: Customer
+            username: Login
+            groups: Applications
+            status: Status
+            name: Last name and first Name
+            url: Url
+            email: Email
+            last_login: Last connection
+            enabled: Active
+            locked: Blocked
+            actions: Actions
+        edit:
+            _breadcrumb: Edit
+            _title: Edit a user
+        add:
+            _breadcrumb: Add
+            _title: Add a user
+            roles: "Role :"
+            groups: "Applications :"
+        delete:
+            _breadcrumb: Delete
+            _title: Delete a user
+            confirm: Are you sure you want to delete this user ?
+    sim:
+        _menu: Sims
+        _breadcrumb: Sims
+        actions:
+            edit:
+                short: Edit
+            add:
+                short: Add
+                full: Add a sim
+            back:
+                list: Return to the list
+        list:
+            _breadcrumb: List
+            _title: List of sims
+            actions: Actions
+            name: Name
+            url: Url
+        edit:
+            _breadcrumb: Edit
+            _title: Edit a sim
+        add:
+            _breadcrumb: Add
+            _title: Add a sim
+    profil:
+        _menu: My profile
+        _breadcrumb: profile
+        edit:
+            _title: My profile
+            actions: Save
+            validate: Your information has been saved
+
+resetting:
+    flash:
+        success: The password has been reset successfully

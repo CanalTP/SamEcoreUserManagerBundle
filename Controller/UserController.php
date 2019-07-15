@@ -61,7 +61,6 @@ class UserController extends AbstractController
     public function editAction(Request $request, User $user = null)
     {
         $this->isGranted('BUSINESS_MANAGE_USER');
-
         $isNew = ($user == null);
         $flow = $this->get('sam.registration.form.flow');
         $flow->bind(($isNew ? new User() : $user));
@@ -164,19 +163,18 @@ class UserController extends AbstractController
             ->getForm();
     }
 
-    public function editProfilProcessForm($user)
+    public function editProfilProcessForm(Request $request, $user)
     {
         $this->get('sam.user_manager')->updateUser($user);
-        $this->get('session')->getFlashBag()->add(
-            'success',
-            $this->get('translator')->trans('ctp_user.profil.edit.validate')
-        );
+        $request->setLocale($user->getLocale()->getCode());
+        $this->get('translator')->setlocale($user->getLocale()->getCode());
+        $this->get('session')->set('_locale', $user->getLocale()->getCode());
     }
 
     /**
      * Displays a form to edit profil of current user.
      */
-    public function editProfilAction()
+    public function editProfilAction(Request $request)
     {
         $app = $this->get('canal_tp_sam.application.finder')->getCurrentApp();
         $id = $this->get('security.context')->getToken()->getUser()->getId();
@@ -186,10 +184,13 @@ class UserController extends AbstractController
             new ProfilFormType(),
             $user
         );
-
-        $form->handleRequest($this->getRequest());
+        $form->handleRequest($request);
         if ($form->isValid()) {
-            $this->editProfilProcessForm($user);
+            $this->editProfilProcessForm($request, $user);
+            $this->get('session')->getFlashBag()->add(
+                'success',
+                $this->get('translator')->trans('ctp_user.profil.edit.validate')
+            );
         }
         return $this->render(
             'CanalTPSamEcoreUserManagerBundle:User:profil.html.twig',

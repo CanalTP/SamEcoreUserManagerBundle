@@ -144,6 +144,8 @@ class User extends AbstractUser
      */
     protected $createdAt;
 
+    protected $language;
+
     /**
      * Constructor
      */
@@ -510,5 +512,22 @@ class User extends AbstractUser
         $this->setCreatedAt(new \DateTime('now'));
 
         return $this;
+    }
+
+    public function setLanguage($language)
+    {
+        $this->language = $language;
+
+        return $this;
+    }
+
+    public function getLanguage()
+    {
+        return $this->language;
+    }
+
+    public function getLocale()
+    {
+        return $this->language ? $this->language : $this->customer->getLanguage();
     }
 }

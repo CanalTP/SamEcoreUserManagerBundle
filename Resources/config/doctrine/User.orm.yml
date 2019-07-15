@@ -100,6 +100,13 @@ CanalTP\SamEcoreUserManagerBundle\Entity\User:
             joinColumn:
                 name: cus_id
                 referencedColumnName: cus_id
+        language:
+            targetEntity:  CanalTP\NmmPortalBundle\Entity\Language
+            cascade: [persist]
+            nullable: true
+            joinColumn:
+                name: usr_lang
+                referencedColumnName: lang_code
     manyToMany:
         userRoles:
             targetEntity: CanalTP\SamCoreBundle\Entity\Role
