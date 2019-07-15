@@ -178,7 +178,6 @@ class UserController extends AbstractController
     public function editProfilAction(Request $request)
     {
         //to translate the flashbag to chosen language
-        $request = $this->getRequest();
         $postData = $request->request->get('edit_user_profil');
         if ($postData && $request->getLocale() !== $postData['language']) {
             $request->setLocale($postData['language']);
