@@ -181,11 +181,9 @@ class UserController extends AbstractController
         $id = $this->get('security.context')->getToken()->getUser()->getId();
         $userManager = $this->container->get('fos_user.user_manager');
         $user = $userManager->findUserBy(array('id' => $id));
-        $options['attr']['selected_language'] = $user->getLocale();
         $form = $this->createForm(
             new ProfilFormType(),
-            $user,
-            $options
+            $user
         );
         $form->handleRequest($request);
         if ($form->isValid()) {
