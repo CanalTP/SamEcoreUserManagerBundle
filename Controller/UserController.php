@@ -176,6 +176,7 @@ class UserController extends AbstractController
      */
     public function editProfilAction(Request $request)
     {
+        $this->container->get('session')->getFlashBag()->clear();
         $app = $this->get('canal_tp_sam.application.finder')->getCurrentApp();
         $id = $this->get('security.context')->getToken()->getUser()->getId();
         $userManager = $this->container->get('fos_user.user_manager');
