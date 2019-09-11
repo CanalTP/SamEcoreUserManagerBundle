@@ -2,10 +2,8 @@
 
 {% block root_breadcrumb %}
     <ol class="breadcrumb">
-        <li><a href="{{ path('canal_tp_sam_homepage') }}">{{'ctp_core._breadcrumb'|trans}}</a></li>
-        <li class="active">
-            <a href="{{ path('sam_user_edit_profil') }}">{{'ctp_user.profil._breadcrumb'|trans}}</a>
-        </li>
+        <li><a href="{{ app.session.get('home_url', path('root')) }}">{{'ctp_core._breadcrumb'|trans}}</a></li>
+        <li class="active">{{'ctp_user.profil._breadcrumb'|trans}}</li>
     </ol>
 
 {% endblock %}
