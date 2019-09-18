@@ -2,9 +2,11 @@
 
 namespace CanalTP\SamEcoreUserManagerBundle\Controller;
 
-use CanalTP\SamCoreBundle\Event\SamCoreEvents;
-use FOS\UserBundle\Model\UserInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use FOS\UserBundle\Model\UserInterface;
+use CanalTP\SamCoreBundle\Event\SamCoreEvents;
+use CanalTP\SamCoreBundle\Entity\Application;
 use CanalTP\SamCoreBundle\Controller\AbstractController;
 use CanalTP\SamEcoreUserManagerBundle\Form\Type\ProfilFormType;
 use CanalTP\SamEcoreUserManagerBundle\Entity\User;
@@ -20,9 +22,9 @@ class UserController extends AbstractController
             $this->get('event_dispatcher')->dispatch($type, $event);
         } catch (UserEventException $e) {
             $this->addFlashMessage('danger', $e->getMessage());
-            return (false);
+            return false;
         }
-        return (true);
+        return true;
     }
 
     /**
@@ -36,12 +38,12 @@ class UserController extends AbstractController
         $user = $this->get('security.context')->getToken()->getUser();
         $isSuperAdmin = $user->hasRole('ROLE_SUPER_ADMIN');
         if ($isSuperAdmin) {
-            $entities = $this->container->get('sam.user_manager')->findUsersBy(array('locked' => false));
+            $entities = $this->container->get('sam.user_manager')->findUsersBy(['locked' => false]);
         } else {
-            $entities = $userManager->findUsersBy(array('customer' => $user->getCustomer(), 'locked' => false));
+            $entities = $userManager->findUsersBy(['customer' => $user->getCustomer(), 'locked' => false]);
         }
 
-        $deleteFormViews = array();
+        $deleteFormViews = [];
         foreach ($entities as $entity) {
             $id                   = $entity->getId();
             $deleteForm           = $this->createDeleteForm($id);
@@ -50,11 +52,11 @@ class UserController extends AbstractController
 
         return $this->render(
             'CanalTPSamEcoreUserManagerBundle:User:list.html.twig',
-            array(
-                'entities'     => $entities,
+            [
+                'entities' => $entities,
                 'isSuperAdmin' => $isSuperAdmin,
                 'delete_forms' => $deleteFormViews,
-            )
+            ]
         );
     }
 
@@ -90,19 +92,23 @@ class UserController extends AbstractController
             }
         }
 
-        return $this->render('CanalTPSamEcoreUserManagerBundle:User:edit.html.twig', array(
-            'id' => ($isNew ? !$isNew : $user->getId()),
-            'title' => ($isNew ? 'ctp_user.user.add._title' : 'ctp_user.user.edit._title'),
-            'form' => $form->createView(),
-            'flow' => $flow
-        ));
+        return $this->render(
+            'CanalTPSamEcoreUserManagerBundle:User:edit.html.twig',
+            [
+                'id' => ($isNew ? !$isNew : $user->getId()),
+                'title' => ($isNew ? 'ctp_user.user.add._title' : 'ctp_user.user.edit._title'),
+                'form' => $form->createView(),
+                'flow' => $flow,
+            ]
+        );
     }
 
     private function isCurrentUser($id)
     {
         if ($this->getUser()->getId() == $id) {
-            throw new \Symfony\Component\Security\Core\Exception\AccessDeniedException('Seriously, you shouldn\'t delete your account.');
+            throw new AccessDeniedException('Seriously, you shouldn\'t delete your account.');
         }
+
         return true;
     }
 
@@ -117,7 +123,7 @@ class UserController extends AbstractController
 
         if ($request->getMethod() == 'GET') {
             $userManager = $this->container->get('fos_user.user_manager');
-            $entity = $userManager->findUserBy(array('id' => $id));
+            $entity = $userManager->findUserBy(['id' => $id]);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find User entity.');
@@ -125,28 +131,28 @@ class UserController extends AbstractController
 
             return $this->render(
                 'CanalTPSamEcoreUserManagerBundle:User:delete.html.twig',
-                array(
-                    'entity'      => $entity,
+                [
+                    'entity' => $entity,
                     'delete_form' => $form->createView(),
-                )
+                ]
             );
-        } else {
-            $form->bind($request);
+        }
+        
+        $form->bind($request);
 
-            if ($form->isValid() && $this->isCurrentUser($id)) {
-                $userManager = $this->container->get('sam.user_manager');
-                $entity = $userManager->findUserBy(array('id' => $id));
+        if ($form->isValid() && $this->isCurrentUser($id)) {
+            $userManager = $this->container->get('sam.user_manager');
+            $entity = $userManager->findUserBy(['id' => $id]);
 
-                if (!$entity) {
-                    throw $this->createNotFoundException('Unable to find User entity.');
-                }
-
-                $this->dispatchEvent($entity, SamCoreEvents::DELETE_USER);
-                $userManager->deleteUser($entity);
+            if (!$entity) {
+                throw $this->createNotFoundException('Unable to find User entity.');
             }
 
-            return $this->redirect($this->generateUrl('sam_user_list'));
+            $this->dispatchEvent($entity, SamCoreEvents::DELETE_USER);
+            $userManager->deleteUser($entity);
         }
+
+        return $this->redirect($this->generateUrl('sam_user_list'));
     }
 
     /**
@@ -158,7 +164,7 @@ class UserController extends AbstractController
      */
     private function createDeleteForm($id)
     {
-        return $this->createFormBuilder(array('id' => $id))
+        return $this->createFormBuilder(['id' => $id])
             ->add('id', 'hidden')
             ->getForm();
     }
@@ -176,15 +182,15 @@ class UserController extends AbstractController
      */
     public function editProfilAction(Request $request)
     {
-        $app = $this->get('canal_tp_sam.application.finder')->getCurrentApp();
+        $this->storeHomeUrl($request);
+
         $id = $this->get('security.context')->getToken()->getUser()->getId();
         $userManager = $this->container->get('fos_user.user_manager');
-        $user = $userManager->findUserBy(array('id' => $id));
-        $form = $this->createForm(
-            new ProfilFormType(),
-            $user
-        );
+        $user = $userManager->findUserBy(['id' => $id]);
+
+        $form = $this->createForm(new ProfilFormType(), $user);
         $form->handleRequest($request);
+
         if ($form->isValid()) {
             $this->editProfilProcessForm($request, $user);
             $this->get('session')->getFlashBag()->add(
@@ -192,13 +198,8 @@ class UserController extends AbstractController
                 $this->get('translator')->trans('ctp_user.profil.edit.validate')
             );
         }
-        return $this->render(
-            'CanalTPSamEcoreUserManagerBundle:User:profil.html.twig',
-            array(
-                'form' => $form->createView(),
-                'defaultAppHomeUrl' => $app->getDefaultRoute()
-            )
-        );
+
+        return $this->render('CanalTPSamEcoreUserManagerBundle:User:profil.html.twig', ['form' => $form->createView()]);
     }
 
     public function toolbarAction()
@@ -207,7 +208,23 @@ class UserController extends AbstractController
 
         return $this->render(
             'CanalTPSamEcoreUserManagerBundle:User:toolbar.html.twig',
-            array('currentAppName' => $appCanonicalName)
+            ['currentAppName' => $appCanonicalName]
         );
+    }
+
+    private function storeHomeUrl(Request $request)
+    {
+        if ($request->isMethod('GET')) {
+            $url = $this->getHomeUrl($request);
+            $this->get('session')->set('home_url', $url);
+        }
+    }
+
+    private function getHomeUrl(Request $request)
+    {
+        $app = $this->get('canal_tp_sam.application.finder')->getCurrentApp();
+        $path =  $app instanceof Application ? $app->getDefaultRoute() : $request->getBasePath();
+
+        return $request->getScheme() . '://' . $request->getHttpHost() . $path;
     }
 }
