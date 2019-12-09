@@ -22,7 +22,6 @@ class UserType extends AbstractType
                     'class' => 'col-md-4',
                     'placeholder' => 'enter username'
                 ],
-                'translation_domain' => 'FOSUserBundle'
             ]
         );
 
@@ -35,7 +34,6 @@ class UserType extends AbstractType
                     'class' => 'col-md-4',
                     'placeholder' => 'enter firstname'
                 ],
-                'translation_domain' => 'FOSUserBundle',
                 'constraints' => [
                     new NotBlank(['groups' => 'flow_registration_step1']),
                     new Length(['groups' => 'flow_registration_step1', 'min' => 3, 'max' => 255])
@@ -52,7 +50,6 @@ class UserType extends AbstractType
                     'class' => 'col-md-4',
                     'placeholder' => 'enter lastname'
                 ],
-                'translation_domain' => 'FOSUserBundle',
                 'constraints' => [
                     new NotBlank(['groups' => 'flow_registration_step1']),
                     new Length(['groups' => 'flow_registration_step1', 'min' => 3, 'max' => 255])
@@ -69,7 +66,6 @@ class UserType extends AbstractType
                     'class' => 'col-md-4',
                     'placeholder' => 'enter email'
                 ],
-                'translation_domain' => 'FOSUserBundle',
                 'constraints' => [
                     new EmailRFC2822(['groups' => 'flow_registration_step1']),
                     new NotBlank(['groups' => 'flow_registration_step1']),
@@ -83,7 +79,6 @@ class UserType extends AbstractType
             [
                 'label' => 'form.timezone',
                 'preferred_choices' => ['Europe/Paris'],
-                'translation_domain' => 'FOSUserBundle'
             ]
         );
     }
@@ -93,7 +88,8 @@ class UserType extends AbstractType
         $resolver->setDefaults(
             [
                 'data_class' => 'CanalTP\SamEcoreUserManagerBundle\Entity\User',
-                'csrf_protection' => false
+                'csrf_protection' => false,
+                'translation_domain' => 'FOSUserBundle'
             ]
         );
     }
