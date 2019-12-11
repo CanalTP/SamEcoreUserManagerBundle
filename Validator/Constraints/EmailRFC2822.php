@@ -10,5 +10,5 @@ use Symfony\Component\Validator\Constraints\Email;
  */
 class EmailRFC2822 extends Email
 {
-    public $message = 'This email address does not comply with RFC 2822';
+    public $message = 'form.error.email_rfc2822';
 }
