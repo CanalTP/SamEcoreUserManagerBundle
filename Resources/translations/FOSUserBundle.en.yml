@@ -112,3 +112,5 @@ form:
     password_confirmation: "Verification :"
     new_password: "New Password :"
     new_password_confirmation: "Verification :"
+    error:
+        email_rfc2822: "This email address does not comply with RFC 2822"
