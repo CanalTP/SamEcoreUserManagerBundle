@@ -147,7 +147,7 @@ class User extends AbstractUser
     protected $language;
 
     /**
-     * User creation date
+     * User deletion date
      *
      * @var \DateTime
      */

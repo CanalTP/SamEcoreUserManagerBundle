@@ -1,7 +1,6 @@
 CanalTP\SamEcoreUserManagerBundle\Entity\User:
     type: entity
     table: public.t_user_usr
-    repositoryClass: CanalTP\SamEcoreUserManagerBundle\Entity\UserRepository
     fields:
         id:
             column: usr_id
