@@ -84,7 +84,13 @@ CanalTP\SamEcoreUserManagerBundle\Entity\User:
             type: datetime
             nullable: true
             options:
-              default: null
+                default: null
+        deletionDate:
+            column: usr_deletion_date
+            type: datetime
+            nullable: true
+            options:
+                default: null
     lifecycleCallbacks:
         prePersist: [setCretedNow]
     uniqueConstraints:

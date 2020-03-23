@@ -147,6 +147,13 @@ class User extends AbstractUser
     protected $language;
 
     /**
+     * User deletion date
+     *
+     * @var \DateTime
+     */
+    protected $deletionDate;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -529,5 +536,29 @@ class User extends AbstractUser
     public function getLocale()
     {
         return $this->language ? $this->language : $this->customer->getLanguage();
+    }
+
+    /**
+     * Set deletionDate
+     *
+     * @param \DateTime $deletionDate
+     *
+     * @return User
+     */
+    public function setDeletionDate($deletionDate)
+    {
+        $this->deletionDate = $deletionDate;
+
+        return $this;
+    }
+
+    /**
+     * Get deletionDate
+     *
+     * @return \DateTime
+     */
+    public function getDeletionDate()
+    {
+        return $this->deletionDate;
     }
 }
