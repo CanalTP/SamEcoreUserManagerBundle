@@ -102,7 +102,7 @@ CanalTP\SamEcoreUserManagerBundle\Entity\User:
         customer:
             targetEntity: CanalTP\NmmPortalBundle\Entity\Customer
             inversedBy: users
-            nullable: false
+            nullable: true
             joinColumn:
                 name: cus_id
                 referencedColumnName: cus_id
