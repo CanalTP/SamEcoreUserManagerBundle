@@ -73,6 +73,7 @@ class UserController extends AbstractController
 
             $flow->saveCurrentStepData($form);
             $user->setStatus($flow->getCurrentStep());
+            $this->dispatchEvent($user, SamCoreEvents::EDIT_USER);
             $this->get('fos_user.registration.form.handler')->save(
                 $user,
                 false
