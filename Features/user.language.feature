@@ -24,7 +24,7 @@ Feature: User language edit
         And I press "Connexion"
         And I am on "/admin/user/profil"
         Then I should see "english" in the "#edit_user_profil_language" element
-        When I fill in "Langue" with "fr"
+        When I fill in "Language" with "fr"
         And I press "Save"
         And I should see "Vos informations ont bien été enregistrées" in the ".alert-success" element
         And I should see "français" in the "#edit_user_profil_language" element
